@@ -9,7 +9,7 @@ El objetivo principal es demostrar las habilidades necesarias para el desarrollo
 ## 💻 Tecnologías Utilizadas
 Las siguientes tecnologías fueron utilizadas en este proyecto:
 
-- **Python 3.9+**: Con el framework FastAPI para la creación de la API.  
+- **Python 3.12+**: Con el framework FastAPI para la creación de la API.  
 - **PostgreSQL**: Base de datos para la persistencia de los leads.  
 - **n8n**: Automatización de flujos de trabajo de procesamiento de datos, ejecutado a través de Docker en entorno local.  
 
@@ -173,6 +173,7 @@ El flujo se inicia con un **Webhook Trigger** que espera a ser llamado. A contin
 - **Filtrado:** La información se pasa a un nodo de filtrado, donde se aplican los parámetros recibidos por el webhook (query parameters).  
 - **Cálculo y Ordenamiento:** Un nodo de tipo `Function` calcula la sumatoria de los presupuestos (`budgets`) y organiza los leads en orden descendente por presupuesto. 
 - **Salidas del Flujo:** Esta última función se ramifica en dos salidas:
+  
   - Una para el **Webhook Response**, que devuelve el resultado.
   - Otra para transformar el resultado en un archivo JSON, con el objetivo de permitir la descarga de la información, sirviendo como una base para una futura extensión del flujo.
 
