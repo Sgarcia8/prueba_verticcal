@@ -10,24 +10,24 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        80,
-        -576
+        0,
+        0
       ],
-      "id": "16e79eb6-0371-4bce-9d51-08f63103db01",
+      "id": "6f80a69e-1c28-4eea-bbd3-77fdc1c271a2",
       "name": "Webhook",
       "webhookId": "1b4fae8d-18b9-4dff-b49c-df0b4ae7992c"
     },
     {
       "parameters": {
-        "jsCode": "// Accede a los datos del nodo Webhook\n// Si usas GET, los datos están en la propiedad 'query'.\nconst params = $node[\"Webhook\"].json.query;\n\n// Array de parámetros permitidos\nconst allowedParams = ['location', 'budget_min', 'budget_max'];\n\n// 1. Verificación de si el objeto de parámetros está vacío\nif (Object.keys(params).length === 0) {\n  return [{ json: { message: \"No parameters received. All filters are optional, but if you send parameters, they must be valid.\" } }];\n}\n\n// 2. Verificación de parámetros extra no permitidos\nconst receivedParams = Object.keys(params);\nconst invalidParams = receivedParams.filter(p => !allowedParams.includes(p));\n\nif (invalidParams.length > 0) {\n  return[{\n    json: {\n      message_error: `Parametros invalidos recibidos: '${invalidParams.join(', ')}'. Solo se permiten 'location', 'budget_min', y 'budget_max'.`\n    }\n  }]\n}\n\n// Variables para los filtros validados\nlet location = null;\nlet budget_min = parseInt(params.budget_min, 10);\nlet budget_max = parseInt(params.budget_max, 10);;\n\n// Asignación de locación\nif (params.location) {\n  location = params.location;\n}\n\n// Validación de budget_min\nif (params.budget_min) {\n  if (isNaN(budget_min) || budget_min < 0) {\n    return [{\n      json: {\n        error: `Invalid budget_min: ${params.budget_min}. Must be a positive number.`\n      }\n    }];\n  }\n}\n\n// Validación de budget_max\nif (params.budget_max) {\n  if (isNaN(budget_max) || budget_max < 0) {\n    return [{\n      json: {\n        error: `Invalid budget_max: ${params.budget_max}. Must be a positive number.`\n      }\n    }];\n  }\n}\n\nif (budget_max<budget_min) {\nreturn [{\n    json: {\n      error: `Invalid budget range: budget_max (${budget_max}) cannot be less than budget_min (${budget_min}).`\n    }\n  }];}\n\n\n// Devuelve los parámetros validados para que los use el resto del flujo\nreturn [{\n  json: {\n    location: location,\n    budget_min: budget_min,\n    budget_max: budget_max\n  }\n}];"
+        "jsCode": "// Accede a los datos del nodo Webhook\n// Si usas GET, los datos están en la propiedad 'query'.\nconst params = $node[\"Webhook\"].json.query;\n\n// Array de parámetros permitidos\nconst allowedParams = ['location', 'budget_min', 'budget_max'];\n\n// 1. Verificación de si el objeto de parámetros está vacío\nif (Object.keys(params).length === 0) {\n  return [{ json: { message: \"No parameters received. All filters are optional, but if you send parameters, they must be valid.\" } }];\n}\n\n// 2. Verificación de parámetros extra no permitidos\nconst receivedParams = Object.keys(params);\nconst invalidParams = receivedParams.filter(p => !allowedParams.includes(p));\n\nif (invalidParams.length > 0) {\n  return[{\n    json: {\n      error: `Parametros invalidos recibidos: '${invalidParams.join(', ')}'. Solo se permiten 'location', 'budget_min', y 'budget_max'.`\n    }\n  }]\n}\n\n// Variables para los filtros validados\nlet location = null;\nlet budget_min = parseInt(params.budget_min, 10);\nlet budget_max = parseInt(params.budget_max, 10);;\n\n// Asignación de locación\nif (params.location) {\n  location = params.location;\n}\n\n// Validación de budget_min\nif (params.budget_min) {\n  if (isNaN(budget_min) || budget_min < 0) {\n    return [{\n      json: {\n        error: `Invalid budget_min: ${params.budget_min}. Must be a positive number.`\n      }\n    }];\n  }\n}\n\n// Validación de budget_max\nif (params.budget_max) {\n  if (isNaN(budget_max) || budget_max < 0) {\n    return [{\n      json: {\n        error: `Invalid budget_max: ${params.budget_max}. Must be a positive number.`\n      }\n    }];\n  }\n}\n\nif (budget_max<budget_min) {\nreturn [{\n    json: {\n      error: `Invalid budget range: budget_max (${budget_max}) cannot be less than budget_min (${budget_min}).`\n    }\n  }];}\n\n\n// Devuelve los parámetros validados para que los use el resto del flujo\nreturn [{\n  json: {\n    location: location,\n    budget_min: budget_min,\n    budget_max: budget_max\n  }\n}];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        240,
-        -576
+        176,
+        0
       ],
-      "id": "e2755413-fd39-4b4f-b4b5-e311c7a2fd8b",
+      "id": "5273e936-df71-41db-a317-cfae3df5c5db",
       "name": "Get_path_params"
     },
     {
@@ -50,15 +50,15 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        64,
-        0
+        -16,
+        576
       ],
-      "id": "c81710c5-8c63-4a71-a891-121a3ffa2e7f",
+      "id": "c5ce28ae-8740-4a20-b21a-b29088ffa94e",
       "name": "Get_leads",
       "executeOnce": true,
       "credentials": {
         "postgres": {
-          "id": "lFu46GUv5OlhMCzf",
+          "id": "nlLnbcXZjyxNMI4T",
           "name": "Postgres account"
         }
       }
@@ -70,10 +70,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        320,
-        0
+        240,
+        576
       ],
-      "id": "e3a42308-0f6d-4c05-a714-2b83c73a7188",
+      "id": "2c9696f1-c5d1-48ca-8ce7-10ad87b07ab0",
       "name": "Filter_leads"
     },
     {
@@ -83,10 +83,10 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.4,
       "position": [
-        768,
-        -224
+        688,
+        352
       ],
-      "id": "8c8682e9-2a47-4eb3-bcb2-943f615fc52b",
+      "id": "219d7686-3438-448a-9401-a5e0b036cb79",
       "name": "Respond to Webhook",
       "alwaysOutputData": false
     },
@@ -102,23 +102,23 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        768,
-        224
+        688,
+        800
       ],
-      "id": "4c6c04e2-53c0-4796-8dc5-fc9c282c8f97",
+      "id": "5758d623-4e0a-455e-85cb-37c52c37b7b3",
       "name": "Convert_to_json"
     },
     {
       "parameters": {
-        "jsCode": "const error = $node[\"Get_path_params\"].json;\n\nif(error.error){\n  return error;\n}\n\nconst message = $node[\"Filter_leads\"].json;\nif (message.message) {\n  return message;\n}\n\n// Simplifica el acceso a los datos del nodo\nconst leads = items.map(item => item.json);\n\n// 1. Calcula el presupuesto total\n// El método reduce itera sobre el array y suma cada valor de 'budget'.\nconst totalBudget = leads.reduce((sum, lead) => {\n  // Asegúrate de convertir el 'budget' a un número para la suma.\n  return sum + parseInt(lead.budget);\n}, 0); // El 0 es el valor inicial de la suma\n\n// 2. Ordena los leads de forma descendente por presupuesto\nconst sortedLeads = leads.sort((a, b) => {\n  // Convierte los valores a números para asegurar un ordenamiento correcto\n  return parseInt(b.budget) - parseInt(a.budget);\n});\n\n// 3. Retorna un único objeto JSON con los dos resultados\nreturn [{\n  json: {\n    total_budget: totalBudget,\n    sorted_leads: sortedLeads\n  }\n}];"
+        "jsCode": "const error = $node[\"Get_path_params\"].json;\n\nif(error.error || error.message){\n  return error;\n}\n\nconst message = $node[\"Filter_leads\"].json;\nif (message.message) {\n  return message;\n}\n\n// Simplifica el acceso a los datos del nodo\nconst leads = items.map(item => item.json);\n\n// 1. Calcula el presupuesto total\n// El método reduce itera sobre el array y suma cada valor de 'budget'.\nconst totalBudget = leads.reduce((sum, lead) => {\n  // Asegúrate de convertir el 'budget' a un número para la suma.\n  return sum + parseInt(lead.budget);\n}, 0); // El 0 es el valor inicial de la suma\n\n// 2. Ordena los leads de forma descendente por presupuesto\nconst sortedLeads = leads.sort((a, b) => {\n  // Convierte los valores a números para asegurar un ordenamiento correcto\n  return parseInt(b.budget) - parseInt(a.budget);\n});\n\n// 3. Retorna un único objeto JSON con los dos resultados\nreturn [{\n  json: {\n    total_budget: totalBudget,\n    sorted_leads: sortedLeads\n  }\n}];"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        544,
-        0
+        464,
+        576
       ],
-      "id": "312bb0e7-b609-4208-8ac7-7eb5948ebd43",
+      "id": "fc3afccb-0901-4737-b9ab-c9c0a4154ee5",
       "name": "Count_and_sort_budget"
     },
     {
@@ -187,15 +187,15 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        896,
-        -576
+        816,
+        0
       ],
-      "id": "066b62ce-6a17-486b-be00-1b26ce7f7c6b",
+      "id": "269c4e40-c938-4c05-8f5f-14bca76e2f69",
       "name": "Insert rows in a table",
       "executeOnce": false,
       "credentials": {
         "postgres": {
-          "id": "lFu46GUv5OlhMCzf",
+          "id": "nlLnbcXZjyxNMI4T",
           "name": "Postgres account"
         }
       }
@@ -207,10 +207,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        688,
-        -576
+        608,
+        0
       ],
-      "id": "69384d08-916f-46df-b898-de76e80919cc",
+      "id": "1e74ec1a-073a-4874-8cd0-8ba7c3badf86",
       "name": "Insert_leads"
     },
     {
@@ -232,14 +232,14 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        480,
-        -576
+        400,
+        0
       ],
-      "id": "689707fa-b306-421a-b1b2-8104e9d54645",
+      "id": "9f0592b6-7806-4ccd-a3b6-688018441e22",
       "name": "Delete_rows",
       "credentials": {
         "postgres": {
-          "id": "lFu46GUv5OlhMCzf",
+          "id": "nlLnbcXZjyxNMI4T",
           "name": "Postgres account"
         }
       }
@@ -289,16 +289,6 @@
             "index": 0
           }
         ]
-      ]
-    },
-    "Respond to Webhook": {
-      "main": [
-        []
-      ]
-    },
-    "Convert_to_json": {
-      "main": [
-        []
       ]
     },
     "Count_and_sort_budget": {
@@ -355,11 +345,11 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "d17f09cf-df1b-4ba3-a637-7353bbdb555c",
+  "versionId": "32d2b2e8-44ff-4e03-8800-189b9010da77",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "c6bbb9e3c01e5db8c7cf48af0e344c9147c4c400debe9273afa49375fa2aa432"
+    "instanceId": "debdf94920733e0d5a5271414b0a44514b92f314645132dd1f89fb5e001556c6"
   },
-  "id": "smFt1DLapzKeZTEd",
+  "id": "F0vZ8sGsCZ5paCsk",
   "tags": []
 }
