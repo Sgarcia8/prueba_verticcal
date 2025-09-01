@@ -144,6 +144,19 @@ Para la persistencia de datos se utilizó **PostgreSQL** con una capa de acceso 
 
 - **Creación de Tablas**: Script en `scripts/create_tables.py` para automatizar creación de la base de datos y la tabla `leads`.
 
+### 2. Ejecución del script:
+#### 1. Crear archivo .env
+En la carpeta scripts, crea un archivo llamado `.env` y copia el contenido de `.env.example`. Luego, modifica la cadena de conexión de la base de datos con tus credenciales. Debes cambiar `myuser`, `mypassword` y `mydatabase` por los valores correctos:
+```bash
+SQLALCHEMY_DATABASE_URL=postgresql+psycopg2://myuser:mypassword@localhost:5432/mydatabase
+
+```
+### 2. Ejecuta el script:
+Abre una terminal, navega hasta la carpeta del proyecto y, con el entorno virtual activado, ejecuta el comando para crear la base de datos.
+```bash
+cd scripts/
+python -m scripts.CreateTables
+```
 ---
 
 ## 🤖 Parte C: Automatización con n8n
