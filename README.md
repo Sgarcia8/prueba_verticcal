@@ -178,6 +178,8 @@ El flujo se inicia con un **Webhook Trigger** que espera a ser llamado. A contin
   - Otra para transformar el resultado en un archivo JSON, con el objetivo de permitir la descarga de la información, sirviendo como una base para una futura extensión del flujo.
 
 ### 2. Parámetros Aceptados
+Los parametros son opcionales
+
 - `location`: Filtra por ubicación (ej. *Bogotá*, *Medellín*).  
 - `budget_min`: Filtra leads con presupuesto ≥ valor.  
 - `budget_max`: Filtra leads con presupuesto ≤ valor.  
@@ -187,7 +189,7 @@ El flujo retorna un objeto JSON con el presupuesto total del conjunto de leads f
 
 **Ejemplo de URL para Postman:**  
 ```
-http://localhost:5678/webhook/init-app?location=Medellín&budget_min=200000000
+http://localhost:5678/webhook/init-app?location=Medellín&budget_min=200000000&budget_max=700000000
 ```
 
 **Ejemplo de Payload de Respuesta:**  
