@@ -161,16 +161,22 @@ python -m scripts.CreateTables
 
 ## 🤖 Parte C: Automatización con n8n
 
-Se construyó un flujo de trabajo en **n8n** para procesar los leads, exportado en `n8n_flow.json`.
+Se construyó un flujo de trabajo en **n8n** para procesar los leads, exportado en `Prueba_Verticcal_n8n.json`.
 
 ### 1. Arquitectura del Flujo
-- **Webhook Trigger**: Inicializa el flujo (`init-app`).  
-- **Validación de Parámetros**: Nodo `Code (Get_path_params)` valida parámetros (`location`, `budget_min`, `budget_max`).  
-- **Limpieza e Inserción**: Reinicia la tabla `leads` e inserta dataset de ejemplo.  
-- **Lectura de Datos**: Consulta de todos los leads desde PostgreSQL.  
-- **Filtro**: Nodo `Code (Filter_leads)` filtra por parámetros recibidos.  
-- **Cálculo y Ordenamiento**: Calcula presupuesto total y ordena por `budget` descendente.  
-- **Respuesta**: Retorna JSON al webhook o lo exporta a archivo.  
+El flujo se inicia con un **Webhook Trigger** que espera a ser llamado. A continuación, la arquitectura de procesamiento es la siguiente:
+- **Extracción de Parámetros:** El siguiente nodo extrae los parámetros de la URL del webhook.
+- **Limpieza de Datos:** Se utiliza un nodo para eliminar toda la información de la base de datos, específicamente de la tabla `leads`. 
+- **Generación de Datos de Prueba**  Un nodo de tipo `Function` retorna un JSON con nuevos valores para insertar. Esta implementación se realizó para fines de prueba, con una posible mejora que consistiría en consultar la base de datos para identificar duplicados y eliminarlos de la lista antes de la inserción.
+- **Inserción en PostgreSQL:** Un nodo de PostgreSQL se encarga de insertar el array de información generado por el nodo anterior.
+- **Recuperación de Datos:** Un segundo nodo de PostgreSQL consulta y trae toda la información de la tabla `leads`.
+
+Filtrado: La información se pasa a un nodo de filtrado, donde se aplican los parámetros recibidos por el webhook (query parameters).  
+- **Filtrado:** La información se pasa a un nodo de filtrado, donde se aplican los parámetros recibidos por el webhook (query parameters).  
+- **Cálculo y Ordenamiento:** Un nodo de tipo `Function` calcula la sumatoria de los presupuestos (`budgets`) y organiza los leads en orden descendente por presupuesto. 
+- **Salidas del Flujo:** Esta última función se ramifica en dos salidas:
+- - Una para el **Webhook Response**, que devuelve el resultado.
+- - Otra para transformar el resultado en un archivo JSON, con el objetivo de permitir la descarga de la información, sirviendo como una base para una futura extensión del flujo.
 
 ### 2. Parámetros Aceptados
 - `location`: Filtra por ubicación (ej. *Bogotá*, *Medellín*).  
