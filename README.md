@@ -14,6 +14,92 @@ Las siguientes tecnologías fueron utilizadas en este proyecto:
 - **n8n**: Automatización de flujos de trabajo de procesamiento de datos, ejecutado a través de Docker en entorno local.  
 
 ---
+# 🛠️ Instalación y Ejecución
+Sigue estos pasos para configurar y ejecutar el proyecto en tu entorno local.
+
+## 1. Configuración del Entorno Python
+
+**Crea un entorno virtual:**  
+Abre una terminal en la raíz del proyecto y ejecuta el siguiente comando:
+
+```bash
+python -m venv venv
+```
+
+**Activa el entorno virtual:**  
+Es indispensable que actives el entorno virtual para instalar las dependencias en el lugar correcto.
+
+- En Windows:  
+```bash
+venv\Scripts\activate
+```
+
+- En macOS/Linux:  
+```bash
+source venv/bin/activate
+```
+
+**Instala las dependencias:**  
+Una vez activado el entorno, instala todas las librerías necesarias:
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## 2. Configuración y Ejecución de n8n con Docker
+
+**Crea el archivo `docker-compose.yml`:**  
+Verifica si tienes el archivo `docker-compose.yml` en la raíz del proyecto. Si no lo tienes, usa el siguiente contenido:
+
+```yaml
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n_container
+    ports:
+      - '5678:5678'
+    volumes:
+      - ~/.n8n:/home/node/.n8n
+    environment:
+      - N8N_EDITOR_URL=http://localhost:5678/
+    restart: unless-stopped
+```
+
+**Inicia n8n:**  
+Abre una terminal en la raíz del proyecto y ejecuta el siguiente comando para levantar el contenedor:
+
+```bash
+docker-compose up -d
+```
+
+**Importa y activa el flujo de trabajo:**  
+- Abre tu navegador y ve a [http://localhost:5678/](http://localhost:5678/).  
+- Importa el archivo `Prueba_Verticcal_n8n.json` que está en el proyecto.  
+- Una vez importado, activa el flujo para que el webhook comience a escuchar las peticiones.  
+
+**Configura las credenciales de PostgreSQL en n8n:**  
+Para que el flujo se conecte a la base de datos, necesitas configurar las credenciales.
+- En la interfaz de n8n, buscas los nodos de PostgreSQL.
+- Haz clic en el campo Credential y selecciona New.
+- Llena los campos con la información de tu base de datos (host, nombre de la base de datos, usuario y contraseña).
+- Una vez configurado, el nodo de PostgreSQL estará listo para funcionar.
+---
+
+## 3. Ejecución de la API (Backend)
+
+**Inicia la API con FastAPI:**  
+Asegúrate de que tu entorno virtual esté activo. Debes navegar a la carpeta `app` y luego ejecutar el comando de FastAPI:
+
+```bash
+cd app/
+fastapi dev main.py
+```
+
+La API estará disponible en [http://127.0.0.1:8000](http://127.0.0.1:8000).  
+Puedes ver la documentación interactiva en [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).  
+---
 
 ## 🚀 Parte A: Manejo de APIs
 
